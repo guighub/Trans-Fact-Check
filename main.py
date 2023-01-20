@@ -48,7 +48,7 @@ def refresh(api, last_mentions):
             print(mention.text)
             command = get_command(mention.text)
             if command != 0:
-                print(send_reply(command, mention))
+                send_reply(command, mention)
     else:
         print("Nothing new (Total: " + str(len(mentions)) + ")")
     time.sleep(refresh_rate)
