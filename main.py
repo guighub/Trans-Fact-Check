@@ -1,6 +1,9 @@
 import tweepy
 import time
+from datetime import datetime
 from config import *
+
+now = datetime.now()
 
 def send_reply(command, mention):
     with open(command, 'r', encoding='utf8') as file:
@@ -38,21 +41,30 @@ def get_command(text):
     else:
         return 0
 
-def refresh(api, last_mentions):
-    mentions = api.mentions_timeline()
+def refresh_loop(api, last_mentions):
+    bio_update = 1
 
-    if len(last_mentions) < len(mentions):
-        print("New mention (Total: " + str(len(mentions)) + ")")
-        for i in range(len(last_mentions), len(mentions)):
-            mention = mentions[i - len(last_mentions)]
-            print(mention.text)
-            command = get_command(mention.text)
-            if command != 0:
-                send_reply(command, mention)
-    else:
-        print("Nothing new (Total: " + str(len(mentions)) + ")")
-    time.sleep(refresh_rate)
-    refresh(api, mentions)
+    while 1:
+        mentions = api.mentions_timeline()
+        
+        if len(last_mentions) < len(mentions):
+            print("New mention (Total: " + str(len(mentions)) + ")")
+            for i in range(len(last_mentions), len(mentions)):
+                mention = mentions[i - len(last_mentions)]
+                print(mention.text)
+                command = get_command(mention.text)
+                if command != 0:
+                    send_reply(command, mention)
+        else:
+            print("Nothing new (Total: " + str(len(mentions)) + ")")
+        
+        time.sleep(refresh_rate)
+
+        if (bio_update % bio_refresh_rate == 0):
+            api.update_profile(description=(account_bio + account_bio_update + now.strftime("%m/%d/%Y %H:%M (PT)")))
+            print("Bio updated.")
+
+        bio_update += 1
 
 auth = tweepy.OAuth1UserHandler(
    consumer_key, consumer_secret, access_token, access_token_secret
@@ -67,4 +79,4 @@ ID = user.id_str
 print(ID)
 
 mentions = api.mentions_timeline()
-refresh(api, mentions)
+refresh_loop(api, mentions)
