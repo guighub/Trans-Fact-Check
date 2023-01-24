@@ -6,10 +6,9 @@ access_token_secret = "Access token secret here"
 screen_name = "Account username here"
 bearer_token = "Bearer token here"
 
-# Number of times to refresh notification feed
-refresh_rate = 10
+refresh_rate = 6 # Check for new mentions every X seconds
+bio_refresh_rate = 60 / refresh_rate # Update bio every X refreshes
 
-# Command prompts
 prompt1 = "bigot"
 prompt2 = "biology"
 prompt3 = "chromosomes"
@@ -22,3 +21,6 @@ prompt9 = "assault"
 prompt10 = "41%"
 prompt11 = "suicide"
 prompt12 = "brainwashed"
+
+account_bio = "Educating TERFs and transphobes, read the pinned tweet for info!"
+account_bio_update = "\nServer last up at: "
