@@ -3,8 +3,6 @@ import time
 from datetime import datetime
 from config import *
 
-now = datetime.now()
-
 def send_reply(command, mention):
     with open(command, 'r', encoding='utf8') as file:
         try:
@@ -73,6 +71,7 @@ def refresh_loop(api, last_mentions):
         time.sleep(refresh_rate)
 
         if (bio_update % bio_refresh_rate == 0):
+            now = datetime.now()
             api.update_profile(description=(account_bio + account_bio_update + now.strftime("%m/%d/%Y %H:%M (PT)")))
             print("Bio updated.")
 
