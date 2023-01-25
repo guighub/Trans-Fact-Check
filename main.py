@@ -38,6 +38,18 @@ def get_command(text):
         return "facts/suicide.txt"
     elif prompt12 in trim_text:
         return "facts/brainwashed.txt"
+    elif prompt13 in trim_text:
+        return "facts/sources.txt"
+    elif prompt14 in trim_text:
+        return "facts/sources.txt"
+    elif prompt15 in trim_text:
+        return "facts/education.txt"
+    elif prompt16 in trim_text:
+        return "facts/education.txt"
+    elif prompt17 in trim_text:
+        return "facts/education.txt"
+    elif prompt18 in trim_text:
+        return "facts/sports.txt"
     else:
         return 0
 
@@ -64,6 +76,7 @@ def refresh_loop(api, last_mentions):
             api.update_profile(description=(account_bio + account_bio_update + now.strftime("%m/%d/%Y %H:%M (PT)")))
             print("Bio updated.")
 
+        last_mentions = mentions
         bio_update += 1
 
 auth = tweepy.OAuth1UserHandler(
